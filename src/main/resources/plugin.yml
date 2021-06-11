@@ -1,0 +1,18 @@
+name: BuildersReach
+version: @version@
+main: xyz.tehbrian.buildersreach.BuildersReach
+api-version: 1.16
+authors: [ TehBrian ]
+description: Build from afar with a simple, easy-to-use plugin.
+website: https://github.com/ItsTehBrian/BuildersReach
+commands:
+  buildersreach:
+    description: Various commands for BuildersReach.
+    aliases: [ br ]
+permissions:
+  buildersreach.use:
+    permission: Permission to turn on BuildersReach for self.
+    default: true
+  buildersreach.reload:
+    permission: Permission to reload BuildersReach.
+    default: op
