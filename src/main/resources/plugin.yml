@@ -1,14 +1,17 @@
 name: BuildersReach
-version: @version@
-main: xyz.tehbrian.buildersreach.BuildersReach
-api-version: 1.16
+description: Build from afar.
 authors: [ TehBrian ]
-description: Build from afar with a simple, easy-to-use plugin.
-website: https://github.com/ItsTehBrian/BuildersReach
+website: https://github.com/TehBrian/BuildersReach
+
+version: ${version}
+main: xyz.tehbrian.buildersreach.BuildersReach
+api-version: 1.17
+
 commands:
   buildersreach:
     description: Various commands for BuildersReach.
     aliases: [ br ]
+    
 permissions:
   buildersreach.use:
     permission: Permission to turn on BuildersReach for self.
