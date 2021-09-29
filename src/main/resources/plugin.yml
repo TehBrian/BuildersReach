@@ -7,11 +7,6 @@ version: ${version}
 main: xyz.tehbrian.buildersreach.BuildersReach
 api-version: 1.17
 
-commands:
-  buildersreach:
-    description: Various commands for BuildersReach.
-    aliases: [ br ]
-    
 permissions:
   buildersreach.use:
     permission: Permission to turn on BuildersReach for self.

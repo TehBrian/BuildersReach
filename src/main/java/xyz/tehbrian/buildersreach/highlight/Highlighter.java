@@ -1,6 +1,6 @@
 package xyz.tehbrian.buildersreach.highlight;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -14,5 +14,6 @@ public interface Highlighter {
      * @param lifetime the lifetime of the glowing block, in ticks
      * @param color    the color of the glow
      */
-    void highlight(Player p, Location loc, int lifetime, ChatColor color);
+    void highlight(Player p, Location loc, int lifetime, NamedTextColor color);
+
 }

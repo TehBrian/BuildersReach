@@ -1,0 +1,8 @@
+enabled: "<yellow>Enabled reach for self!"
+disabled: "<light_purple>Disabled reach for self."
+reload: "<green>Reloaded plugin."
+invalid_distance: "<red>Invalid distance."
+over_max_distance: "<red>Distance too large."
+set_distance: "<aqua>Set your reach distance to <white><distance><aqua>!"
+invalid_color: "<red>Invalid color."
+set_color: "<aqua>Set your color to <white><color><aqua>!"

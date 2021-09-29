@@ -1,6 +1,6 @@
 package xyz.tehbrian.buildersreach.listeners;
 
-import org.bukkit.Bukkit;
+import com.google.inject.Inject;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,36 +8,37 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import xyz.tehbrian.buildersreach.BuildersReach;
-import xyz.tehbrian.buildersreach.data.PlayerDataManager;
+import xyz.tehbrian.buildersreach.user.User;
+import xyz.tehbrian.buildersreach.user.UserService;
 
-public class PlayerListener implements Listener {
+public final class PlayerListener implements Listener {
 
-    private final BuildersReach main;
+    private final UserService userService;
 
-    public PlayerListener(BuildersReach main) {
-        this.main = main;
+    @Inject
+    public PlayerListener(final UserService userService) {
+        this.userService = userService;
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event) {
-        PlayerDataManager playerDataManager = main.getPlayerDataManager();
-        Player player = event.getPlayer();
+    public void onInteract(final PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        final User user = this.userService.getUser(player);
 
-        if (!playerDataManager.isPlayerEnabled(player)) return;
+        if (!user.enabled()) {
+            return;
+        }
 
-        Block block = player.getTargetBlockExact(playerDataManager.getReachDistance(player), FluidCollisionMode.SOURCE_ONLY);
-        if (block == null) return;
+        final Block block = player.getTargetBlockExact(user.reachDistance(), FluidCollisionMode.SOURCE_ONLY);
+        if (block == null) {
+            return;
+        }
 
         switch (event.getAction()) {
-            case LEFT_CLICK_AIR: {
-                block.setType(Material.AIR);
-                break;
-            }
-            case RIGHT_CLICK_AIR: {
-                block.setType(player.getInventory().getItemInMainHand().getType());
-                break;
-            }
+            case LEFT_CLICK_AIR -> block.setType(Material.AIR);
+            case RIGHT_CLICK_AIR -> block.setType(player.getInventory().getItemInMainHand().getType());
+            default -> {}
         }
     }
+
 }

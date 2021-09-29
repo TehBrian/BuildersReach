@@ -1,16 +1,3 @@
 # I wouldn't recommend setting this to more than 150.
 # Past that, and the server starts crashing. Badly.
-options:
-  max_reach_distance: 100
-
-# TODO
-# This plugin uses MiniMessage syntax.
-messages:
-  enabled: "&eEnabled reach for self!"
-  disabled: "&dDisabled reach for self."
-  reload: "&aReloaded plugin."
-  invalid_distance: "&cInvalid distance."
-  over_max_distance: "&cDistance too large."
-  set_distance: "&bSet your reach distance to &f%s&b!"
-  invalid_color: "&cInvalid color."
-  set_color: "&bSet your color to &f%s&b!"
+max-reach-distance: 100
