@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("xyz.jpenilla.run-paper") version "1.0.4"
 }
 
 group = "xyz.tehbrian"
@@ -13,7 +14,7 @@ java {
 
 repositories {
     mavenCentral()
-    mavenLocal() // required for craftbukkit dependency
+    mavenLocal() // required for paper dependency
 
     maven("https://papermc.io/repo/repository/maven-public/") {
         name = "papermc"
@@ -47,5 +48,9 @@ tasks {
 
     shadowJar {
         archiveBaseName.set("BuildersReach")
+    }
+
+    runServer {
+        minecraftVersion("1.17.1")
     }
 }
