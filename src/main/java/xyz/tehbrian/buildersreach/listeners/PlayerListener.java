@@ -1,18 +1,32 @@
 package xyz.tehbrian.buildersreach.listeners;
 
+import com.destroystokyo.paper.block.TargetBlockInfo;
 import com.google.inject.Inject;
 import net.minecraft.core.BlockPosition;
+import net.minecraft.core.EnumDirection;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.level.PlayerInteractManager;
+import net.minecraft.server.level.WorldServer;
+import net.minecraft.world.EnumHand;
+import net.minecraft.world.EnumInteractionResult;
+import net.minecraft.world.phys.MovingObjectPositionBlock;
+import net.minecraft.world.phys.Vec3D;
 import org.bukkit.FluidCollisionMode;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import xyz.tehbrian.buildersreach.user.User;
 import xyz.tehbrian.buildersreach.user.UserService;
+
+import java.util.Objects;
 
 public final class PlayerListener implements Listener {
 
@@ -37,18 +51,59 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-//        final ItemStack itemStack = new ItemStack(CraftMagicNumbers.getBlock(Material.GLASS), 1);
-//        final WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-        final EntityPlayer playerHandle = ((CraftPlayer) player).getHandle();
-        final PlayerInteractManager d = playerHandle.d;
-
         switch (event.getAction()) {
-            case LEFT_CLICK_AIR -> d.breakBlock(new BlockPosition(block.getX(), block.getY(), block.getZ()));
-            case RIGHT_CLICK_AIR -> block.setType(player.getInventory().getItemInMainHand().getType());
-            //d.a(playerHandle, world, itemStack, EnumHand.b);
+            case LEFT_CLICK_AIR -> this.leftClick(player, block);
+            case RIGHT_CLICK_AIR -> this.rightClick(
+                    player,
+                    block,
+                    player.getTargetBlockFace(user.reachDistance(), TargetBlockInfo.FluidMode.SOURCE_ONLY),
+                    event.getInteractionPoint(),
+                    event.getHand(),
+                    event.getItem()
+            );
             default -> {
             }
         }
+    }
+
+    private void leftClick(final Player player, final Block block) {
+        final EntityPlayer playerHandle = ((CraftPlayer) player).getHandle();
+        final PlayerInteractManager d = playerHandle.d;
+        d.breakBlock(new BlockPosition(block.getX(), block.getY(), block.getZ()));
+    }
+
+    private boolean rightClick(
+            final Player player, final Block block,
+            final BlockFace blockFace, final Location interactionPoint, final EquipmentSlot equipmentSlot, final ItemStack heldItem
+    ) {
+        if (interactionPoint != null) {
+            return false; // this should be handled by regular ol' block-clickin
+            // interaction point is the thing we need to fake if it it's null
+        }
+
+        final Location fakePoint = this.pointBetween(player.getLocation(), block.getLocation(), 1);
+
+        final EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+        final WorldServer nmsWorld = nmsPlayer.getWorldServer();
+        final net.minecraft.world.item.ItemStack nmsHeldItem = CraftItemStack.asNMSCopy(heldItem);
+        final EnumHand nmsHand = equipmentSlot == EquipmentSlot.HAND ? EnumHand.a : EnumHand.b;
+
+        final EnumDirection side = Objects.requireNonNull(EnumDirection.a(blockFace.toString().toLowerCase()));
+
+        final EnumInteractionResult result = nmsPlayer.d.a(nmsPlayer, nmsWorld, nmsHeldItem, nmsHand,
+                MovingObjectPositionBlock.a(
+                        new Vec3D(fakePoint.getX(), fakePoint.getY(), fakePoint.getZ()),
+                        side,
+                        new BlockPosition(block.getX(), block.getY(), block.getZ())
+                )
+        );
+
+        return result == EnumInteractionResult.b;
+    }
+
+    private Location pointBetween(final Location a, final Location b, final int distanceFromB) {
+        // I'm crud at vector arithmetic, there is 100% a better way to do this, don't judge me
+        return b.subtract(a.getDirection().normalize().multiply(distanceFromB));
     }
 
 }
