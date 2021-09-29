@@ -38,7 +38,7 @@ public final class FallingBlockHighlighter implements Highlighter {
     // https://www.spigotmc.org/threads/1-15-invisible-shulker.412945/
     // TODO: optimize by not deleting the block every tick
     public void highlight(final Player p, final Location loc, final int lifetime, final NamedTextColor color) {
-        final IBlockData data = CraftMagicNumbers.getBlock(Material.ORANGE_WOOL).getBlockData();
+        final IBlockData data = CraftMagicNumbers.getBlock(Material.GLASS).getBlockData();
         final EntityFallingBlock entity = new EntityFallingBlock(
                 ((CraftWorld) loc.getWorld()).getHandle(),
                 loc.getX() + 0.5,

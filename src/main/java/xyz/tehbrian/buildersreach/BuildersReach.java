@@ -12,7 +12,7 @@ import xyz.tehbrian.buildersreach.command.CommandService;
 import xyz.tehbrian.buildersreach.config.ConfigConfig;
 import xyz.tehbrian.buildersreach.config.LangConfig;
 import xyz.tehbrian.buildersreach.highlight.BlockHighlightingTask;
-import xyz.tehbrian.buildersreach.highlight.MagmaCubeHighlighter;
+import xyz.tehbrian.buildersreach.highlight.FallingBlockHighlighter;
 import xyz.tehbrian.buildersreach.inject.ConfigModule;
 import xyz.tehbrian.buildersreach.inject.PluginModule;
 import xyz.tehbrian.buildersreach.inject.UserModule;
@@ -83,9 +83,9 @@ public final class BuildersReach extends TehPlugin {
 
     public void setupTasks() {
         final var blockHighlightingTask = this.injector.getInstance(BlockHighlightingTask.class);
-        blockHighlightingTask.setHighlighter(this.injector.getInstance(MagmaCubeHighlighter.class));
+        blockHighlightingTask.setHighlighter(this.injector.getInstance(FallingBlockHighlighter.class));
 
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, blockHighlightingTask, 1, 1);
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, blockHighlightingTask, 1, 1);
     }
 
 }
