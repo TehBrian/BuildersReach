@@ -101,12 +101,13 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
                     }
 
                     this.userService.getUser(sender).highlightColor(namedTextColor);
-                    sender.sendMessage(this.langConfig.c(NodePath.path("set_color"), Map.of("color", namedTextColor.examinableName())));
+                    sender.sendMessage(this.langConfig.c(NodePath.path("set_color"), Map.of("color", namedTextColor.toString())));
                 });
 
         commandManager.command(main);
         commandManager.command(reload);
         commandManager.command(distance);
+        commandManager.command(color);
     }
 
 }

@@ -25,9 +25,9 @@ public class ScoreboardService {
     public @NonNull Team getColoredTeam(final NamedTextColor color) {
         final Scoreboard board = this.buildersReach.getServer().getScoreboardManager().getMainScoreboard();
 
-        @Nullable Team team = board.getTeam("br_color_" + color.asHSV());
+        @Nullable Team team = board.getTeam("br_" + color);
         if (team == null) {
-            team = board.registerNewTeam("br_color_" + color.asHSV());
+            team = board.registerNewTeam("br_" + color);
             team.color(color);
         }
 

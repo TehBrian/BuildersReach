@@ -9,8 +9,8 @@ import java.util.UUID;
 public final class User extends PaperUser {
 
     private boolean enabled;
-    private int reachDistance;
-    private NamedTextColor highlightColor;
+    private int reachDistance = 16;
+    private NamedTextColor highlightColor = NamedTextColor.WHITE;
 
     public User(@NonNull final UUID uuid) {
         super(uuid);

@@ -42,7 +42,7 @@ public final class MagmaCubeHighlighter implements Highlighter {
         entity.setNoGravity(true);
         entity.getBukkitEntity().setGlowing(true);
         entity.setNoAI(true);
-        entity.setSize(1, true);
+        entity.setSize(2, true);
 
         final Team team = this.scoreboardService.getColoredTeam(color);
         team.addEntry(entity.getUniqueID().toString());
