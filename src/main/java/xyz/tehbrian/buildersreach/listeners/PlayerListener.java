@@ -5,7 +5,6 @@ import com.google.inject.Inject;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.EnumDirection;
 import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.server.level.PlayerInteractManager;
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.world.EnumHand;
 import net.minecraft.world.EnumInteractionResult;
@@ -46,16 +45,16 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        final Block block = player.getTargetBlockExact(user.reachDistance(), FluidCollisionMode.SOURCE_ONLY);
-        if (block == null) {
+        final Block targetBlock = player.getTargetBlockExact(user.reachDistance(), FluidCollisionMode.SOURCE_ONLY);
+        if (targetBlock == null) {
             return;
         }
 
         switch (event.getAction()) {
-            case LEFT_CLICK_AIR -> this.leftClick(player, block);
+            case LEFT_CLICK_AIR -> player.breakBlock(targetBlock);
             case RIGHT_CLICK_AIR -> this.rightClick(
                     player,
-                    block,
+                    targetBlock,
                     player.getTargetBlockFace(user.reachDistance(), TargetBlockInfo.FluidMode.SOURCE_ONLY),
                     event.getInteractionPoint(),
                     event.getHand(),
@@ -64,12 +63,6 @@ public final class PlayerListener implements Listener {
             default -> {
             }
         }
-    }
-
-    private void leftClick(final Player player, final Block block) {
-        final EntityPlayer playerHandle = ((CraftPlayer) player).getHandle();
-        final PlayerInteractManager d = playerHandle.d;
-        d.breakBlock(new BlockPosition(block.getX(), block.getY(), block.getZ()));
     }
 
     private boolean rightClick(
