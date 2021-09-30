@@ -45,7 +45,7 @@ public final class PlayerListener implements Listener {
             return;
         }
 
-        final Block targetBlock = player.getTargetBlockExact(user.reachDistance(), FluidCollisionMode.SOURCE_ONLY);
+        final Block targetBlock = player.getTargetBlockExact(user.reachDistance(), FluidCollisionMode.NEVER);
         if (targetBlock == null) {
             return;
         }
@@ -55,7 +55,7 @@ public final class PlayerListener implements Listener {
             case RIGHT_CLICK_AIR -> this.rightClick(
                     player,
                     targetBlock,
-                    player.getTargetBlockFace(user.reachDistance(), TargetBlockInfo.FluidMode.SOURCE_ONLY),
+                    player.getTargetBlockFace(user.reachDistance(), TargetBlockInfo.FluidMode.NEVER),
                     event.getInteractionPoint(),
                     event.getHand(),
                     event.getItem()

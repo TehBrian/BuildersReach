@@ -20,17 +20,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import xyz.tehbrian.buildersreach.BuildersReach;
 import xyz.tehbrian.buildersreach.ScoreboardService;
+import xyz.tehbrian.buildersreach.config.ConfigConfig;
 
 public final class FallingBlockHighlighter implements Highlighter {
 
     private final BuildersReach buildersReach;
     private final ScoreboardService scoreboardService;
+    private final ConfigConfig configConfig;
 
     @Inject
     public FallingBlockHighlighter(
+            final ConfigConfig configConfig,
             final BuildersReach buildersReach,
             final ScoreboardService scoreboardService
     ) {
+        this.configConfig = configConfig;
         this.buildersReach = buildersReach;
         this.scoreboardService = scoreboardService;
     }
@@ -38,7 +42,7 @@ public final class FallingBlockHighlighter implements Highlighter {
     // https://www.spigotmc.org/threads/1-15-invisible-shulker.412945/
     // TODO: optimize by not deleting the block every tick
     public void highlight(final Player p, final Location loc, final int lifetime, final NamedTextColor color) {
-        final IBlockData data = CraftMagicNumbers.getBlock(Material.GLASS).getBlockData();
+        final IBlockData data = CraftMagicNumbers.getBlock(Material.valueOf(this.configConfig.data().fallingBlockType())).getBlockData();
         final EntityFallingBlock entity = new EntityFallingBlock(
                 ((CraftWorld) loc.getWorld()).getHandle(),
                 loc.getX() + 0.5,

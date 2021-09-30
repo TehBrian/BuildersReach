@@ -13,7 +13,11 @@ import xyz.tehbrian.buildersreach.config.ConfigConfig;
 import xyz.tehbrian.buildersreach.config.LangConfig;
 import xyz.tehbrian.buildersreach.highlight.BlockHighlightingTask;
 import xyz.tehbrian.buildersreach.highlight.FallingBlockHighlighter;
+import xyz.tehbrian.buildersreach.highlight.Highlighter;
+import xyz.tehbrian.buildersreach.highlight.MagmaCubeHighlighter;
+import xyz.tehbrian.buildersreach.highlight.ShulkerHighlighter;
 import xyz.tehbrian.buildersreach.inject.ConfigModule;
+import xyz.tehbrian.buildersreach.inject.HIghlightingModule;
 import xyz.tehbrian.buildersreach.inject.PluginModule;
 import xyz.tehbrian.buildersreach.inject.UserModule;
 import xyz.tehbrian.buildersreach.listeners.PlayerListener;
@@ -27,6 +31,7 @@ public final class BuildersReach extends TehPlugin {
         try {
             this.injector = Guice.createInjector(
                     new ConfigModule(),
+                    new HIghlightingModule(),
                     new PluginModule(this),
                     new UserModule()
             );
@@ -59,6 +64,8 @@ public final class BuildersReach extends TehPlugin {
 
         this.injector.getInstance(ConfigConfig.class).load();
         this.injector.getInstance(LangConfig.class).load();
+
+        this.setHighlighter();
     }
 
     public void setupListeners() {
@@ -83,10 +90,19 @@ public final class BuildersReach extends TehPlugin {
     }
 
     public void setupTasks() {
-        final var blockHighlightingTask = this.injector.getInstance(BlockHighlightingTask.class);
-        blockHighlightingTask.setHighlighter(this.injector.getInstance(FallingBlockHighlighter.class));
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, this.injector.getInstance(BlockHighlightingTask.class), 1, 1);
+    }
 
-        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, blockHighlightingTask, 1, 1);
+    public void setHighlighter() {
+        final var blockHighlightingTask = this.injector.getInstance(BlockHighlightingTask.class);
+
+        final Highlighter highlighter = switch (this.injector.getInstance(ConfigConfig.class).data().highlighter()) {
+            case FALLING_BLOCK -> this.injector.getInstance(FallingBlockHighlighter.class);
+            case MAGMA_CUBE -> this.injector.getInstance(MagmaCubeHighlighter.class);
+            case SHULKER -> this.injector.getInstance(ShulkerHighlighter.class);
+        };
+
+        blockHighlightingTask.setHighlighter(highlighter);
     }
 
 }

@@ -43,7 +43,16 @@ public final class ConfigConfig extends AbstractDataConfig<YamlConfigurateWrappe
     }
 
     @ConfigSerializable
-    public static record Data(int maxReachDistance) {
+    public static record Data(int maxReachDistance,
+                              Highlighter highlighter,
+                              String fallingBlockType
+    ) {
+
+        public enum Highlighter {
+            FALLING_BLOCK,
+            MAGMA_CUBE,
+            SHULKER
+        }
 
     }
 

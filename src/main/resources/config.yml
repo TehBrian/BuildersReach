@@ -1,3 +1,9 @@
 # I wouldn't recommend setting this to more than 150.
 # Past that, and the server starts crashing. Badly.
 max-reach-distance: 100
+
+# falling-block, magma-cube, shulker
+highlighter: FALLING_BLOCK
+
+# only works with falling-block highlighter
+falling-block-type: GLASS
