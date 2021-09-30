@@ -47,6 +47,7 @@ public final class BuildersReach extends TehPlugin {
     @Override
     public void onDisable() {
         this.getServer().getScheduler().cancelTasks(this);
+        this.injector.getInstance(ScoreboardService.class).deleteColoredTeams();
     }
 
     /**
