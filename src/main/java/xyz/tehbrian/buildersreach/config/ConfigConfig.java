@@ -2,9 +2,7 @@ package xyz.tehbrian.buildersreach.config;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import dev.tehbrian.tehlib.core.configurate.AbstractConfig;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
@@ -17,11 +15,9 @@ import java.nio.file.Path;
 /**
  * Loads and holds values for {@code config.yml}.
  */
-public final class ConfigConfig extends AbstractConfig<YamlConfigurateWrapper> {
+public final class ConfigConfig extends AbstractDataConfig<YamlConfigurateWrapper, ConfigConfig.Data> {
 
     private final BuildersReach buildersReach;
-
-    private @Nullable Data data;
 
     @Inject
     public ConfigConfig(
@@ -37,38 +33,13 @@ public final class ConfigConfig extends AbstractConfig<YamlConfigurateWrapper> {
     }
 
     @Override
-    public void load() {
-        this.configurateWrapper.load();
-        final CommentedConfigurationNode rootNode = this.configurateWrapper.get();
-        final String fileName = this.configurateWrapper.filePath().getFileName().toString();
-
-        try {
-            this.data = rootNode.get(Data.class);
-        } catch (final SerializationException e) {
-            this.logger.warn("Exception caught during configuration deserialization for {}", fileName);
-            this.logger.warn("Disabling plugin. Please check your {}", fileName);
-            this.buildersReach.disableSelf();
-            this.logger.warn("Printing stack trace:", e);
-            return;
-        }
-
-        if (this.data == null) {
-            this.logger.warn("The deserialized configuration for {} was null.", fileName);
-            this.logger.warn("Disabling plugin. Please check your {}", fileName);
-            this.buildersReach.disableSelf();
-            return;
-        }
-
-        this.logger.info("Successfully loaded configuration file {}", fileName);
+    protected void disablePlugin() {
+        this.buildersReach.disableSelf();
     }
 
-    /**
-     * Gets the data.
-     *
-     * @return the data
-     */
-    public @Nullable Data data() {
-        return this.data;
+    @Override
+    protected void setData(final CommentedConfigurationNode rootNode) throws SerializationException {
+        this.data = rootNode.get(Data.class);
     }
 
     @ConfigSerializable
