@@ -2,8 +2,12 @@
 # Past that, and the server starts crashing. Badly.
 max-reach-distance: 100
 
-# falling-block, magma-cube, shulker
-highlighter: FALLING_BLOCK
+# Choose either FALLING_BLOCK, MAGMA_CUBE, SHULKER.
+# Each has disadvantages.
+# FALLING_BLOCK : if falling-block-type is same as targeted, a whole lot of client issues happen
+# MAGMA_CUBE    : shakes and jitters; can't interact with blocks up close
+# SHULKER       : you can see lil shulker guy in the middle of non-full blocks
+highlighter: SHULKER
 
-# only works with falling-block highlighter
+# Only works with FALLING_BLOCK highlighter.
 falling-block-type: GLASS
