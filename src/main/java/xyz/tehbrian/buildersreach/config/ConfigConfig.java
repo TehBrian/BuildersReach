@@ -51,7 +51,8 @@ public final class ConfigConfig extends AbstractDataConfig<YamlConfigurateWrappe
         public enum Highlighter {
             FALLING_BLOCK,
             MAGMA_CUBE,
-            SHULKER
+            SHULKER,
+            STRUCTURE_BLOCK
         }
 
     }

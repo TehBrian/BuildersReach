@@ -16,6 +16,7 @@ import xyz.tehbrian.buildersreach.highlight.FallingBlockHighlighter;
 import xyz.tehbrian.buildersreach.highlight.Highlighter;
 import xyz.tehbrian.buildersreach.highlight.MagmaCubeHighlighter;
 import xyz.tehbrian.buildersreach.highlight.ShulkerHighlighter;
+import xyz.tehbrian.buildersreach.highlight.StructureBlockHighlighter;
 import xyz.tehbrian.buildersreach.inject.ConfigModule;
 import xyz.tehbrian.buildersreach.inject.HIghlightingModule;
 import xyz.tehbrian.buildersreach.inject.PluginModule;
@@ -100,6 +101,7 @@ public final class BuildersReach extends TehPlugin {
             case FALLING_BLOCK -> this.injector.getInstance(FallingBlockHighlighter.class);
             case MAGMA_CUBE -> this.injector.getInstance(MagmaCubeHighlighter.class);
             case SHULKER -> this.injector.getInstance(ShulkerHighlighter.class);
+            case STRUCTURE_BLOCK -> this.injector.getInstance(StructureBlockHighlighter.class);
         };
 
         blockHighlightingTask.setHighlighter(highlighter);
