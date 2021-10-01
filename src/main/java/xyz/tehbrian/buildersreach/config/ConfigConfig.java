@@ -2,11 +2,10 @@ package xyz.tehbrian.buildersreach.config;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import dev.tehbrian.tehlib.paper.configurate.AbstractDataConfig;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.tehbrian.buildersreach.BuildersReach;
 
@@ -38,8 +37,8 @@ public final class ConfigConfig extends AbstractDataConfig<YamlConfigurateWrappe
     }
 
     @Override
-    protected void setData(final CommentedConfigurationNode rootNode) throws SerializationException {
-        this.data = rootNode.get(Data.class);
+    protected Class<Data> getDataClass() {
+        return Data.class;
     }
 
     @ConfigSerializable
