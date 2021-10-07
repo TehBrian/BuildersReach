@@ -59,8 +59,11 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
                 .handler(c -> {
                     final var sender = c.getSender();
 
-                    this.buildersReach.loadConfigs();
-                    sender.sendMessage(this.langConfig.c(NodePath.path("reload")));
+                    if (this.buildersReach.loadConfiguration()) {
+                        sender.sendMessage(this.langConfig.c(NodePath.path("reload_successful")));
+                    } else {
+                        sender.sendMessage(this.langConfig.c(NodePath.path("reload_unsuccessful")));
+                    }
                 });
 
         final var distance = main.literal("distance")

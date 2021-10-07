@@ -2,11 +2,13 @@ package xyz.tehbrian.buildersreach;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import dev.tehbrian.tehlib.core.configurate.Config;
 import dev.tehbrian.tehlib.paper.TehPlugin;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurateException;
 import xyz.tehbrian.buildersreach.command.BuildersReachCommand;
 import xyz.tehbrian.buildersreach.command.CommandService;
 import xyz.tehbrian.buildersreach.config.ConfigConfig;
@@ -23,8 +25,13 @@ import xyz.tehbrian.buildersreach.inject.PluginModule;
 import xyz.tehbrian.buildersreach.inject.UserModule;
 import xyz.tehbrian.buildersreach.listeners.PlayerListener;
 
+import java.util.List;
+
 public final class BuildersReach extends TehPlugin {
 
+    /**
+     * The Guice injector.
+     */
     private @MonotonicNonNull Injector injector;
 
     @Override
@@ -44,7 +51,9 @@ public final class BuildersReach extends TehPlugin {
             return;
         }
 
-        this.loadConfigs();
+        if (!this.loadConfiguration()) {
+            return;
+        }
         this.setupListeners();
         this.setupCommands();
         this.setupTasks();
@@ -57,16 +66,35 @@ public final class BuildersReach extends TehPlugin {
     }
 
     /**
-     * Loads the various plugin config files.
+     * Loads the plugin's configuration.
+     *
+     * @return whether or not the loading was successful
      */
-    public void loadConfigs() {
+    public boolean loadConfiguration() {
         this.saveResourceSilently("config.yml");
         this.saveResourceSilently("lang.yml");
 
-        this.injector.getInstance(ConfigConfig.class).load();
-        this.injector.getInstance(LangConfig.class).load();
+        final List<Config> configsToLoad = List.of(
+                this.injector.getInstance(ConfigConfig.class),
+                this.injector.getInstance(LangConfig.class)
+        );
+
+        for (final Config config : configsToLoad) {
+            try {
+                config.load();
+            } catch (final ConfigurateException e) {
+                this.getLog4JLogger().error("Exception caught during config load for {}", config.configurateWrapper().filePath());
+                this.getLog4JLogger().error("Disabling plugin. Please check your config.");
+                this.disableSelf();
+                this.getLog4JLogger().error("Printing stack trace:", e);
+                return false;
+            }
+        }
 
         this.setHighlighter();
+
+        this.getLog4JLogger().info("Successfully loaded configuration.");
+        return true;
     }
 
     public void setupListeners() {
