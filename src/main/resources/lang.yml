@@ -2,7 +2,7 @@ enabled: "<yellow>Enabled reach for self!"
 disabled: "<light_purple>Disabled reach for self."
 
 reload_successful: "<green>Successfully reloaded plugin."
-reload_unsuccessful: "red>Failed to reload plugin, please check the console."
+reload_unsuccessful: "<red>Failed to reload plugin, please check the console."
 
 invalid_distance: "<red>Invalid distance."
 over_max_distance: "<red>Distance too large."
