@@ -42,8 +42,9 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
 
     @Override
     public void register(@NonNull final PaperCommandManager<CommandSender> commandManager) {
-        final var main = commandManager.commandBuilder("buildersreach", "br")
-                .meta(CommandMeta.DESCRIPTION, "Toggle BuildersReach.")
+        final var main = commandManager.commandBuilder("buildersreach", "br");
+
+        final var toggle = main.meta(CommandMeta.DESCRIPTION, "Toggle BuildersReach.")
                 .senderType(Player.class)
                 .handler(c -> {
                     final var sender = (Player) c.getSender();
@@ -107,7 +108,7 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
                     sender.sendMessage(this.langConfig.c(NodePath.path("set_color"), Map.of("color", namedTextColor.toString())));
                 });
 
-        commandManager.command(main);
+        commandManager.command(toggle);
         commandManager.command(reload);
         commandManager.command(distance);
         commandManager.command(color);

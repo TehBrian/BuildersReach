@@ -66,17 +66,18 @@ public final class BuildersReach extends TehPlugin {
     }
 
     /**
-     * Loads the plugin's configuration.
+     * Loads the plugin's configuration. If an exception is caught, logs the
+     * error and returns false.
      *
      * @return whether or not the loading was successful
      */
     public boolean loadConfiguration() {
-        this.saveResourceSilently("config.yml");
         this.saveResourceSilently("lang.yml");
+        this.saveResourceSilently("config.yml");
 
         final List<Config> configsToLoad = List.of(
-                this.injector.getInstance(ConfigConfig.class),
-                this.injector.getInstance(LangConfig.class)
+                this.injector.getInstance(LangConfig.class),
+                this.injector.getInstance(ConfigConfig.class)
         );
 
         for (final Config config : configsToLoad) {
