@@ -5,7 +5,7 @@ website: https://github.com/TehBrian/BuildersReach
 
 version: ${version}
 main: xyz.tehbrian.buildersreach.BuildersReach
-api-version: 1.17
+api-version: 1.18
 
 permissions:
   buildersreach.use:

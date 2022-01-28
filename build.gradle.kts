@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.papermc.paperweight.userdev") version "1.3.3"
     id("xyz.jpenilla.run-paper") version "1.0.6"
 }
 
@@ -13,8 +14,6 @@ java {
 
 repositories {
     mavenCentral()
-    mavenLocal() // required for paper dependency
-
     maven("https://papermc.io/repo/repository/maven-public/") {
         name = "papermc"
     }
@@ -24,8 +23,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-    compileOnly("io.papermc.paper:paper:1.17.1-R0.1-SNAPSHOT")
+    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
 
     implementation("com.google.inject:guice:5.1.0")
     implementation("org.spongepowered:configurate-yaml:4.1.2")
@@ -34,6 +32,10 @@ dependencies {
 }
 
 tasks {
+    assemble {
+        dependsOn(reobfJar)
+    }
+
     processResources {
         expand("version" to project.version)
     }
@@ -44,6 +46,6 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.17.1")
+        minecraftVersion("1.18.1")
     }
 }
