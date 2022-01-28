@@ -2,20 +2,20 @@ package xyz.tehbrian.buildersreach.listeners;
 
 import com.destroystokyo.paper.block.TargetBlockInfo;
 import com.google.inject.Inject;
-import net.minecraft.core.BlockPosition;
-import net.minecraft.core.EnumDirection;
-import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.server.level.WorldServer;
-import net.minecraft.world.EnumHand;
-import net.minecraft.world.EnumInteractionResult;
-import net.minecraft.world.phys.MovingObjectPositionBlock;
-import net.minecraft.world.phys.Vec3D;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,22 +76,22 @@ public final class PlayerListener implements Listener {
 
         final Location fakePoint = this.pointBetween(player.getLocation(), block.getLocation(), 1);
 
-        final EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
-        final WorldServer nmsWorld = nmsPlayer.getWorldServer();
+        final ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+        final ServerLevel nmsWorld = nmsPlayer.getLevel();
         final net.minecraft.world.item.ItemStack nmsHeldItem = CraftItemStack.asNMSCopy(heldItem);
-        final EnumHand nmsHand = equipmentSlot == EquipmentSlot.HAND ? EnumHand.a : EnumHand.b;
+        final InteractionHand nmsHand = equipmentSlot == EquipmentSlot.HAND ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 
-        final EnumDirection side = Objects.requireNonNull(EnumDirection.a(blockFace.toString().toLowerCase()));
+        final Direction side = Objects.requireNonNull(Direction.byName(blockFace.toString().toLowerCase()));
 
-        final EnumInteractionResult result = nmsPlayer.d.a(nmsPlayer, nmsWorld, nmsHeldItem, nmsHand,
-                MovingObjectPositionBlock.a(
-                        new Vec3D(fakePoint.getX(), fakePoint.getY(), fakePoint.getZ()),
+        final InteractionResult result = nmsPlayer.gameMode.useItemOn(nmsPlayer, nmsWorld, nmsHeldItem, nmsHand,
+                BlockHitResult.miss(
+                        new Vec3(fakePoint.getX(), fakePoint.getY(), fakePoint.getZ()),
                         side,
-                        new BlockPosition(block.getX(), block.getY(), block.getZ())
+                        new BlockPos(block.getX(), block.getY(), block.getZ())
                 )
         );
 
-        return result == EnumInteractionResult.b;
+        return result == InteractionResult.SUCCESS;
     }
 
     private Location pointBetween(final Location a, final Location b, final int distanceFromB) {

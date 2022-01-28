@@ -2,17 +2,18 @@ package xyz.tehbrian.buildersreach.highlight;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minecraft.core.BlockPosition;
-import net.minecraft.nbt.MojangsonParser;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.protocol.game.PacketPlayOutBlockChange;
-import net.minecraft.network.protocol.game.PacketPlayOutTileEntityData;
-import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.server.network.PlayerConnection;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerPlayerConnection;
+import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_17_R1.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -33,20 +34,20 @@ public final class StructureBlockHighlighter implements Highlighter {
         }
         this.lastLocations.put(p.getUniqueId(), loc);
 
-        final EntityPlayer ePlayer = ((CraftPlayer) p).getHandle();
-        final PlayerConnection connection = ePlayer.b;
+        final ServerPlayer ePlayer = ((CraftPlayer) p).getHandle();
+        final ServerPlayerConnection connection = ePlayer.connection;
 
         final Location subLoc = loc.clone().subtract(this.sub);
-        final BlockPosition subLocPos = new BlockPosition(subLoc.getX(), subLoc.getY(), subLoc.getZ());
+        final BlockPos subLocPos = new BlockPos(subLoc.getX(), subLoc.getY(), subLoc.getZ());
 
-        final PacketPlayOutBlockChange addStructureBlock = new PacketPlayOutBlockChange(
+        final ClientboundBlockUpdatePacket addStructureBlock = new ClientboundBlockUpdatePacket(
                 subLocPos,
-                CraftMagicNumbers.getBlock(Material.STRUCTURE_BLOCK).getBlockData()
+                CraftMagicNumbers.getBlock(Material.STRUCTURE_BLOCK).defaultBlockState()
         );
 
-        final NBTTagCompound nbtData;
+        final CompoundTag nbtData;
         try {
-            nbtData = MojangsonParser.parse(
+            nbtData = TagParser.parseTag(
                     "{\"x\":_x_,\"y\":_y_,\"z\":_z_,\"posX\":0,\"posY\":-10,\"posZ\":0,\"sizeX\":1,\"sizeY\":1,\"sizeZ\":1,\"mirror\":\"NONE\",\"powered\":0,\"seed\":[0,0],\"integrity\":1,\"showboundingbox\":1,\"showair\":0,\"name\":\"minecraft:br_highlighter\",\"rotation\":\"NONE\",\"mode\":\"SAVE\",\"id\":\"minecraft:structure_block\",\"author\":_author_,\"metadata\":\"\",\"ignoreEntities\":1}"
                             .replace("_x_", String.valueOf(subLoc.getBlockX()))
                             .replace("_y_", String.valueOf(subLoc.getBlockY()))
@@ -57,26 +58,25 @@ public final class StructureBlockHighlighter implements Highlighter {
             return;
         }
 
-        final PacketPlayOutTileEntityData sendStructureData = new PacketPlayOutTileEntityData(
-                subLocPos,
-                7,
-                nbtData
+        final ClientboundBlockEntityDataPacket sendStructureData = ClientboundBlockEntityDataPacket.create(
+                new StructureBlockEntity(subLocPos, CraftMagicNumbers.getBlock(Material.STRUCTURE_BLOCK).defaultBlockState()),
+                entity -> nbtData
         );
 
         if (lastLocation != null) {
             final Location subLastLoc = lastLocation.clone().subtract(this.sub);
-            final BlockPosition subLastLocPos = new BlockPosition(subLastLoc.getBlockX(), subLastLoc.getBlockY(), subLastLoc.getBlockZ());
+            final BlockPos subLastLocPos = new BlockPos(subLastLoc.getBlockX(), subLastLoc.getBlockY(), subLastLoc.getBlockZ());
 
-            final PacketPlayOutBlockChange removeOldBlock = new PacketPlayOutBlockChange(
+            final ClientboundBlockUpdatePacket removeOldBlock = new ClientboundBlockUpdatePacket(
                     subLastLocPos,
-                    CraftMagicNumbers.getBlock(Material.AIR).getBlockData()
+                    CraftMagicNumbers.getBlock(Material.AIR).defaultBlockState()
             );
 
-            connection.sendPacket(removeOldBlock);
+            connection.send(removeOldBlock);
         }
 
-        connection.sendPacket(addStructureBlock);
-        connection.sendPacket(sendStructureData);
+        connection.send(addStructureBlock);
+        connection.send(sendStructureData);
     }
 
 }
