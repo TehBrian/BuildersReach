@@ -18,12 +18,6 @@ repositories {
     maven("https://papermc.io/repo/repository/maven-public/") {
         name = "papermc"
     }
-    maven("https://oss.sonatype.org/content/groups/public/") {
-        name = "sonatype"
-    }
-    maven("https://s01.oss.sonatype.org/content/groups/public/") {
-        name = "sonatype-s01"
-    }
     maven("https://repo.thbn.me/snapshots/") {
         name = "thbn-snapshots"
     }
@@ -34,7 +28,6 @@ dependencies {
     compileOnly("io.papermc.paper:paper:1.17.1-R0.1-SNAPSHOT")
 
     implementation("com.google.inject:guice:5.1.0")
-
     implementation("org.spongepowered:configurate-yaml:4.1.2")
 
     implementation("dev.tehbrian:tehlib-paper:0.1.0-SNAPSHOT")
