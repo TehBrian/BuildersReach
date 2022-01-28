@@ -4,7 +4,7 @@ max-reach-distance: 100
 
 # Choose either FALLING_BLOCK, MAGMA_CUBE, SHULKER, or STRUCTURE_BLOCK.
 # Each has disadvantages.
-# FALLING_BLOCK   : if falling-block-type is same as targeted, a whole lot of client issues happen
+# FALLING_BLOCK   : if falling-block-type is same as targeted, a lot of client issues occur
 # MAGMA_CUBE      : shakes and jitters; can't interact with blocks up close
 # SHULKER         : you can see lil shulker guy in the middle of non-full blocks
 # STRUCTURE_BLOCK : may override other blocks; can be seen by player; cannot change color
