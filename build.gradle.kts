@@ -43,6 +43,13 @@ tasks {
     shadowJar {
         archiveBaseName.set("BuildersReach")
         archiveClassifier.set("")
+
+        val libsPackage = "xyz.tehbrian.buildersreach.libs"
+        relocate("com.google.inject", "$libsPackage.guice")
+        relocate("net.kyori.adventure.text.minimessage", "$libsPackage.minimessage")
+        relocate("org.spongepowered.configurate.yaml", "$libsPackage.configurate.yaml")
+        relocate("dev.tehbrian.tehlib", "$libsPackage.tehlib")
+        relocate("cloud.commandframework", "$libsPackage.cloud")
     }
 
     runServer {
