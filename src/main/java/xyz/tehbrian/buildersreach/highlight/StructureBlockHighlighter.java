@@ -9,11 +9,10 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerPlayerConnection;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_18_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -42,7 +41,7 @@ public final class StructureBlockHighlighter implements Highlighter {
 
         final ClientboundBlockUpdatePacket addStructureBlock = new ClientboundBlockUpdatePacket(
                 subLocPos,
-                CraftMagicNumbers.getBlock(Material.STRUCTURE_BLOCK).defaultBlockState()
+                Blocks.STRUCTURE_BLOCK.defaultBlockState()
         );
 
         final CompoundTag nbtData;
@@ -59,7 +58,7 @@ public final class StructureBlockHighlighter implements Highlighter {
         }
 
         final ClientboundBlockEntityDataPacket sendStructureData = ClientboundBlockEntityDataPacket.create(
-                new StructureBlockEntity(subLocPos, CraftMagicNumbers.getBlock(Material.STRUCTURE_BLOCK).defaultBlockState()),
+                new StructureBlockEntity(subLocPos, Blocks.STRUCTURE_BLOCK.defaultBlockState()),
                 entity -> nbtData
         );
 
@@ -69,7 +68,7 @@ public final class StructureBlockHighlighter implements Highlighter {
 
             final ClientboundBlockUpdatePacket removeOldBlock = new ClientboundBlockUpdatePacket(
                     subLastLocPos,
-                    CraftMagicNumbers.getBlock(Material.AIR).defaultBlockState()
+                    Blocks.AIR.defaultBlockState()
             );
 
             connection.send(removeOldBlock);
