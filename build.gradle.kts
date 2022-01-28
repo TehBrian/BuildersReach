@@ -40,6 +40,7 @@ tasks {
 
     shadowJar {
         archiveBaseName.set("BuildersReach")
+        archiveClassifier.set("")
     }
 
     runServer {
