@@ -7,6 +7,7 @@ plugins {
 
 group = "xyz.tehbrian"
 version = "0.1.0-SNAPSHOT"
+description = "Build from afar."
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -37,7 +38,7 @@ tasks {
     }
 
     processResources {
-        expand("version" to project.version)
+        expand("version" to project.version, "description" to project.description)
     }
 
     shadowJar {
