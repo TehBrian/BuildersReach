@@ -7,8 +7,7 @@ import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Inject;
 import dev.tehbrian.tehlib.paper.cloud.PaperCloudCommand;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.placeholder.Placeholder;
-import net.kyori.adventure.text.minimessage.placeholder.PlaceholderResolver;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -83,7 +82,7 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
                     this.userService.getUser(sender).reachDistance(distanceArgument);
                     sender.sendMessage(this.langConfig.c(
                             NodePath.path("set_distance"),
-                            PlaceholderResolver.placeholders(Placeholder.miniMessage("distance", String.valueOf(distanceArgument)))
+                            Placeholder.unparsed("distance", String.valueOf(distanceArgument))
                     ));
                 });
 
@@ -108,7 +107,7 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
                     this.userService.getUser(sender).highlightColor(namedTextColor);
                     sender.sendMessage(this.langConfig.c(
                             NodePath.path("set_color"),
-                            PlaceholderResolver.placeholders(Placeholder.miniMessage("color", namedTextColor.toString()))
+                            Placeholder.unparsed("color", namedTextColor.toString())
                     ));
                 });
 
