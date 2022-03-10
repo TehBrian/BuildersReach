@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
+    paperDevBundle("1.18.2-R0.1-SNAPSHOT")
 
     implementation("com.google.inject:guice:5.1.0")
     implementation("org.spongepowered:configurate-yaml:4.1.2")
@@ -47,13 +47,12 @@ tasks {
 
         val libsPackage = "xyz.tehbrian.buildersreach.libs"
         relocate("com.google.inject", "$libsPackage.guice")
-        relocate("net.kyori.adventure.text.minimessage", "$libsPackage.minimessage")
         relocate("org.spongepowered.configurate.yaml", "$libsPackage.configurate.yaml")
         relocate("dev.tehbrian.tehlib", "$libsPackage.tehlib")
         relocate("cloud.commandframework", "$libsPackage.cloud")
     }
 
     runServer {
-        minecraftVersion("1.18.1")
+        minecraftVersion("1.18.2")
     }
 }
