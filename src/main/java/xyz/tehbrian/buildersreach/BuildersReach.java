@@ -29,9 +29,6 @@ import java.util.List;
 
 public final class BuildersReach extends TehPlugin {
 
-    /**
-     * The Guice injector.
-     */
     private @MonotonicNonNull Injector injector;
 
     @Override
