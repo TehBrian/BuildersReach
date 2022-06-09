@@ -47,7 +47,7 @@ tasks {
 
         val libsPackage = "xyz.tehbrian.buildersreach.libs"
         relocate("com.google.inject", "$libsPackage.guice")
-        relocate("org.spongepowered.configurate.yaml", "$libsPackage.configurate.yaml")
+        relocate("org.spongepowered.configurate", "$libsPackage.configurate")
         relocate("dev.tehbrian.tehlib", "$libsPackage.tehlib")
         relocate("cloud.commandframework", "$libsPackage.cloud")
     }
