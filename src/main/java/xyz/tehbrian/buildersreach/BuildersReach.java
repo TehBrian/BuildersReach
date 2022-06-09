@@ -1,5 +1,6 @@
 package xyz.tehbrian.buildersreach;
 
+import cloud.commandframework.paper.PaperCommandManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import dev.tehbrian.tehlib.core.configurate.Config;
@@ -48,8 +49,11 @@ public final class BuildersReach extends TehPlugin {
             this.disableSelf();
             return;
         }
+        if (!this.setupCommands()) {
+            this.disableSelf();
+            return;
+        }
         this.setupListeners();
-        this.setupCommands();
         this.setupTasks();
     }
 
@@ -97,19 +101,25 @@ public final class BuildersReach extends TehPlugin {
         );
     }
 
-    public void setupCommands() {
+    public boolean setupCommands() {
         final @NonNull CommandService commandService = this.injector.getInstance(CommandService.class);
-        commandService.init();
+        try {
+            commandService.init();
+        } catch (final Exception e) {
+            this.getSLF4JLogger().error("Failed to create the CommandManager.");
+            this.getSLF4JLogger().error("Printing stack trace, please send this to the developers:", e);
+            return false;
+        }
 
-        final cloud.commandframework.paper.@Nullable PaperCommandManager<CommandSender> commandManager = commandService.get();
+        final @Nullable PaperCommandManager<CommandSender> commandManager = commandService.get();
         if (commandManager == null) {
             this.getSLF4JLogger().error("The CommandService was null after initialization!");
-            this.getSLF4JLogger().error("Disabling plugin.");
-            this.disableSelf();
-            return;
+            return false;
         }
 
         this.injector.getInstance(BuildersReachCommand.class).register(commandManager);
+
+        return true;
     }
 
     public void setupTasks() {
