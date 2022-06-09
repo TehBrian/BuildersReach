@@ -42,9 +42,6 @@ tasks {
     }
 
     shadowJar {
-        archiveBaseName.set("BuildersReach")
-        archiveClassifier.set("")
-
         val libsPackage = "xyz.tehbrian.buildersreach.libs"
         relocate("com.google.inject", "$libsPackage.guice")
         relocate("org.spongepowered.configurate", "$libsPackage.configurate")
