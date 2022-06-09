@@ -10,5 +10,5 @@ max-reach-distance: 100
 # STRUCTURE_BLOCK : may override other blocks; can be seen by player; cannot change color
 highlighter: SHULKER
 
-# Only works with FALLING_BLOCK highlighter.
+# Only affects FALLING_BLOCK highlighter.
 falling-block-type: GLASS

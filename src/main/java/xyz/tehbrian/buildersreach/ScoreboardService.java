@@ -2,7 +2,7 @@ package xyz.tehbrian.buildersreach;
 
 import com.google.inject.Inject;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.checkerframework.checker.nullness.qual.NonNull;

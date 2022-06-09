@@ -41,10 +41,10 @@ public final class BuildersReach extends TehPlugin {
                     new UserModule()
             );
         } catch (final Exception e) {
-            this.getLog4JLogger().error("Something went wrong while creating the Guice injector.");
-            this.getLog4JLogger().error("Disabling plugin.");
+            this.getSLF4JLogger().error("Something went wrong while creating the Guice injector.");
+            this.getSLF4JLogger().error("Disabling plugin.");
             this.disableSelf();
-            this.getLog4JLogger().error("Printing stack trace, please send this to the developers:", e);
+            this.getSLF4JLogger().error("Printing stack trace, please send this to the developers:", e);
             return;
         }
 
@@ -82,16 +82,16 @@ public final class BuildersReach extends TehPlugin {
             try {
                 config.load();
             } catch (final ConfigurateException e) {
-                this.getLog4JLogger().error("Exception caught during config load for {}", config.configurateWrapper().filePath());
-                this.getLog4JLogger().error("Please check your config.");
-                this.getLog4JLogger().error("Printing stack trace:", e);
+                this.getSLF4JLogger().error("Exception caught during config load for {}", config.configurateWrapper().filePath());
+                this.getSLF4JLogger().error("Please check your config.");
+                this.getSLF4JLogger().error("Printing stack trace:", e);
                 return false;
             }
         }
 
         this.setHighlighter();
 
-        this.getLog4JLogger().info("Successfully loaded configuration.");
+        this.getSLF4JLogger().info("Successfully loaded configuration.");
         return true;
     }
 
@@ -107,8 +107,8 @@ public final class BuildersReach extends TehPlugin {
 
         final cloud.commandframework.paper.@Nullable PaperCommandManager<CommandSender> commandManager = commandService.get();
         if (commandManager == null) {
-            this.getLog4JLogger().error("The CommandService was null after initialization!");
-            this.getLog4JLogger().error("Disabling plugin.");
+            this.getSLF4JLogger().error("The CommandService was null after initialization!");
+            this.getSLF4JLogger().error("Disabling plugin.");
             this.disableSelf();
             return;
         }
