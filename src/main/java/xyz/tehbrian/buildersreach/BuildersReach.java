@@ -19,10 +19,8 @@ import xyz.tehbrian.buildersreach.highlight.Highlighter;
 import xyz.tehbrian.buildersreach.highlight.MagmaCubeHighlighter;
 import xyz.tehbrian.buildersreach.highlight.ShulkerHighlighter;
 import xyz.tehbrian.buildersreach.highlight.StructureBlockHighlighter;
-import xyz.tehbrian.buildersreach.inject.ConfigModule;
-import xyz.tehbrian.buildersreach.inject.HIghlightingModule;
 import xyz.tehbrian.buildersreach.inject.PluginModule;
-import xyz.tehbrian.buildersreach.inject.UserModule;
+import xyz.tehbrian.buildersreach.inject.SingletonModule;
 import xyz.tehbrian.buildersreach.listeners.PlayerListener;
 
 import java.util.List;
@@ -35,10 +33,8 @@ public final class BuildersReach extends TehPlugin {
     public void onEnable() {
         try {
             this.injector = Guice.createInjector(
-                    new ConfigModule(),
-                    new HIghlightingModule(),
                     new PluginModule(this),
-                    new UserModule()
+                    new SingletonModule()
             );
         } catch (final Exception e) {
             this.getSLF4JLogger().error("Something went wrong while creating the Guice injector.");
@@ -67,7 +63,7 @@ public final class BuildersReach extends TehPlugin {
      * Loads the plugin's configuration. If an exception is caught, logs the
      * error and returns false.
      *
-     * @return whether or not the loading was successful
+     * @return whether it was successful
      */
     public boolean loadConfiguration() {
         this.saveResourceSilently("lang.yml");

@@ -70,8 +70,8 @@ public final class PlayerListener implements Listener {
             final BlockFace blockFace, final Location interactionPoint, final EquipmentSlot equipmentSlot, final ItemStack heldItem
     ) {
         if (interactionPoint != null) {
-            return false; // this should be handled by regular ol' block-clickin
-            // interaction point is the thing we need to fake if it it's null
+            return false; // this should be handled by regular ol' block-clicking
+            // interaction point is the thing we need to fake if it's null
         }
 
         final Location fakePoint = this.pointBetween(player.getLocation(), block.getLocation(), 1);
