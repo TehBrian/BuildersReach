@@ -3,9 +3,9 @@ package xyz.tehbrian.buildersreach.inject;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
-import org.slf4j.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.slf4j.Logger;
 import xyz.tehbrian.buildersreach.BuildersReach;
 
 import java.nio.file.Path;

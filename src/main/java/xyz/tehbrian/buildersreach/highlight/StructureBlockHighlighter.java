@@ -47,7 +47,10 @@ public final class StructureBlockHighlighter implements Highlighter {
         final CompoundTag nbtData;
         try {
             nbtData = TagParser.parseTag(
-                    "{\"x\":_x_,\"y\":_y_,\"z\":_z_,\"posX\":0,\"posY\":-10,\"posZ\":0,\"sizeX\":1,\"sizeY\":1,\"sizeZ\":1,\"mirror\":\"NONE\",\"powered\":0,\"seed\":[0,0],\"integrity\":1,\"showboundingbox\":1,\"showair\":0,\"name\":\"minecraft:br_highlighter\",\"rotation\":\"NONE\",\"mode\":\"SAVE\",\"id\":\"minecraft:structure_block\",\"author\":_author_,\"metadata\":\"\",\"ignoreEntities\":1}"
+                    ("{\"x\":_x_,\"y\":_y_,\"z\":_z_,\"posX\":0,\"posY\":-10,\"posZ\":0,\"sizeX\":1,\"sizeY\":1,\"sizeZ\":1,"
+                            + "\"mirror\":\"NONE\",\"powered\":0,\"seed\":[0,0],\"integrity\":1,\"showboundingbox\":1,"
+                            + "\"showair\":0,\"name\":\"minecraft:br_highlighter\",\"rotation\":\"NONE\",\"mode\":\"SAVE\","
+                            + "\"id\":\"minecraft:structure_block\",\"author\":_author_,\"metadata\":\"\",\"ignoreEntities\":1}")
                             .replace("_x_", String.valueOf(subLoc.getBlockX()))
                             .replace("_y_", String.valueOf(subLoc.getBlockY()))
                             .replace("_z_", String.valueOf(subLoc.getBlockZ()))

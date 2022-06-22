@@ -2,13 +2,13 @@ package xyz.tehbrian.buildersreach;
 
 import com.google.inject.Inject;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.slf4j.Logger;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
 
-public class ScoreboardService {
+public final class ScoreboardService {
 
     private final BuildersReach buildersReach;
     private final Logger logger;
