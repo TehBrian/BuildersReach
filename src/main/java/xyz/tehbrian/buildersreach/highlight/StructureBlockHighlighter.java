@@ -12,7 +12,7 @@ import net.minecraft.server.network.ServerPlayerConnection;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.checkerframework.checker.nullness.qual.Nullable;

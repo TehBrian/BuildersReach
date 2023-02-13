@@ -13,9 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_18_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_18_R2.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_19_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R2.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import xyz.tehbrian.buildersreach.BuildersReach;
@@ -66,9 +66,8 @@ public final class FallingBlockHighlighter implements Highlighter {
 
         final ClientboundAddEntityPacket spawnPacket = new ClientboundAddEntityPacket(entity, Block.getId(data));
         final ClientboundSetEntityDataPacket metaPacket = new ClientboundSetEntityDataPacket(
-                entity.getBukkitEntity().getEntityId(),
-                entity.getEntityData(),
-                true
+                entity.getId(),
+                entity.getEntityData().getNonDefaultValues()
         );
 
         connection.send(spawnPacket);

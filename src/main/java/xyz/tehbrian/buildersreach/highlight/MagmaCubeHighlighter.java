@@ -2,7 +2,7 @@ package xyz.tehbrian.buildersreach.highlight;
 
 import com.google.inject.Inject;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minecraft.network.protocol.game.ClientboundAddMobPacket;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,8 +11,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.MagmaCube;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_18_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import xyz.tehbrian.buildersreach.BuildersReach;
@@ -51,11 +51,10 @@ public final class MagmaCubeHighlighter implements Highlighter {
         final ServerPlayer ePlayer = ((CraftPlayer) p).getHandle();
         final ServerPlayerConnection connection = ePlayer.connection;
 
-        final ClientboundAddMobPacket spawnPacket = new ClientboundAddMobPacket(entity);
+        final ClientboundAddEntityPacket spawnPacket = new ClientboundAddEntityPacket(entity);
         final ClientboundSetEntityDataPacket metaPacket = new ClientboundSetEntityDataPacket(
-                entity.getBukkitEntity().getEntityId(),
-                entity.getEntityData(),
-                true
+                entity.getId(),
+                entity.getEntityData().getNonDefaultValues()
         );
 
         connection.send(spawnPacket);

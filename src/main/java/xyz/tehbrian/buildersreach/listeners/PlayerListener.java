@@ -1,6 +1,5 @@
 package xyz.tehbrian.buildersreach.listeners;
 
-import com.destroystokyo.paper.block.TargetBlockInfo;
 import com.google.inject.Inject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,8 +13,8 @@ import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_18_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -55,7 +54,7 @@ public final class PlayerListener implements Listener {
             case RIGHT_CLICK_AIR -> this.rightClick(
                     player,
                     targetBlock,
-                    player.getTargetBlockFace(user.reachDistance(), TargetBlockInfo.FluidMode.NEVER),
+                    player.getTargetBlockFace(user.reachDistance(), FluidCollisionMode.NEVER),
                     event.getInteractionPoint(),
                     event.getHand(),
                     event.getItem()
