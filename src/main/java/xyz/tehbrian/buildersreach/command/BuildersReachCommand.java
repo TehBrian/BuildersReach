@@ -69,7 +69,7 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
 
         final var distance = main.literal("distance")
                 .senderType(Player.class)
-                .argument(IntegerArgument.<CommandSender>newBuilder("blocks").withMin(0).build())
+                .argument(IntegerArgument.<CommandSender>builder("blocks").withMin(0).build())
                 .handler(c -> {
                     final var sender = (Player) c.getSender();
                     final int distanceArgument = c.get("blocks");
@@ -90,7 +90,7 @@ public final class BuildersReachCommand extends PaperCloudCommand<CommandSender>
 
         final var color = main.literal("color")
                 .senderType(Player.class)
-                .argument(StringArgument.<CommandSender>newBuilder("color")
+                .argument(StringArgument.<CommandSender>builder("color")
                         .single()
                         .withSuggestionsProvider((c, s) -> namedTextColors)
                         .build())
