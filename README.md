@@ -1,4 +1,4 @@
-# !! - THIS PROJECT IS NO LONGER NEEDED - !!
+# !! - THIS PROJECT IS OBSOLETE - !!
 
 Mojang added the `/attribute <player> minecraft:player.block_interaction_range base set <value>`
 command to the base game, which results in a much better experience than this hacky server-side plugin
