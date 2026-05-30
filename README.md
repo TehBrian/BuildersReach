@@ -1,11 +1,12 @@
 # !! - THIS PROJECT IS OBSOLETE - !!
 
-Mojang added the `/attribute <player> minecraft:player.block_interaction_range base set <value>`
+Mojang added the `/attribute <player> minecraft:block_interaction_range base set <value>`
 command to the base game, which results in a much better experience than this hacky server-side plugin
 could ever possibly provide. Use that instead!
 
-[BuildersUtilities](https://github.com/TehBrian/BuildersUtilities) has an alias for that
-command since it's a bit long to type.
+~~[BuildersUtilities](https://github.com/TehBrian/BuildersUtilities) has an alias for that
+command since it's a bit long to type.~~ I ended up not adding an alias command since I doubt
+it'd see much (if any) use. If you'd really like me to implement it, let me know at https://github.com/TehBrian/BuildersUtilities/issues/73! :)
 
 Old info below.
 
